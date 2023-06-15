@@ -1,0 +1,52 @@
+body {
+    /*background-color: #f0f2f4;*/
+    background-image: url("/static/crane-bg.jpeg");
+    background-size: cover;
+}
+
+/* large font on top nav bar */
+nav.navbar,
+.navbar-brand {
+    font-size: 2rem;
+}
+
+/* underline top nav bar active link and any others on hover */
+nav.navbar .active,
+nav.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* logo formatting */
+.navbar-brand {
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+.navbar-brand a:hover {
+    color: white !important;
+}
+
+/* main colour theme - for navbar and content headers */
+.jumbotron,
+nav.navbar,
+.card-header {
+    background-color: #d9e8f7 !important;
+}
+
+/* inverted colours theme - for navbar logo, modal dialog headers, and buttons */
+.navbar-brand,
+.modal-header,
+.modal-header .close,
+.btn-dark {
+    background-color: #565656 !important;
+    color: #d9f7f7 !important;
+}
+
+/* action icons */
+.action-icon {
+    color: #003366;
+}
+
+.action-icon:hover {
+    color: blue;
+}

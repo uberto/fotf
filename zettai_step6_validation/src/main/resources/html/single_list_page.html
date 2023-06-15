@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/zettai.css">
+    <title>Zettai - a ToDoList application</title>
+</head>
+<body>
+<div id="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow mb-5">
+        <div class="navbar-brand"><a class="text-reset" href="/">Zettai</a></div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/todo/{user}">My Lists</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/whatsnext/{user}">What&apos;s Next</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                <i class="bi bi-person-circle mr-1"></i>
+                {user}
+            </span>
+        </div>
+    </nav>
+
+
+    <!-- main content -->
+    <main class="row">
+        <div class="col-sm-1 col-md-3"></div>
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h1>
+                        <a href="/todo/{user}" class="text-reset">My Lists</a>
+                    </h1>
+                    {if_error}
+                    <div class="alert alert-danger" role="alert">
+                        {errors}
+                    </div>
+                    {/if_error}
+                    <h3>
+                        <span>
+                            <i class="bi bi-arrow-return-right"></i>
+                            {listname}
+                            <small>
+                                <a class="text-reset" data-toggle="modal" href="#rename-list-dialog">
+                                    <i class="bi bi-pencil-square action-icon"></i>
+                                </a>
+                            </small>
+                            <a class="float-right text-reset" data-toggle="modal" href="#add-item-dialog">
+                                <i class="bi bi-plus-circle-fill action-icon"></i>
+                            </a>
+                        </span>
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    {items}
+                    <li class="list-group-item" data-test="item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1" data-test="item-desc">{description}</h5>
+                            <small data-test="item-due">{dueDate}</small>
+                        </div>
+                        <p class="mb-1" data-test="item-status">{status}</p>
+                    </li>
+                    {/items}
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-1 col-md-3"></div>
+    </main>
+
+    <!-- Add Item Modal -->
+    <div class="modal fade" id="add-item-dialog" tabindex="-1" role="dialog" aria-labelledby="addItemDialogTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header shadow mb-3">
+                    <h5 class="modal-title" id="addItemDialogTitle">Create a new thing to do</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-3">
+                    <form action="/todo/{user}/{listname}/additem" method="post">
+                        <label for="itemname">Please enter a description of the task:</label>
+                        <div class="form-row mb-3">
+                            <div class="col">
+                                <input type="text" class="form-control" name="itemname" id="itemname" required>
+                            </div>
+                        </div>
+                        <label for="itemdue">Due date (optional):</label>
+                        <div class="form-row mb-3">
+                            <div class="col">
+                                <input type="date" class="form-control" name="itemdue" id="itemdue">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="submit" class="btn btn-dark form-control" value="Add Item">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rename list Modal -->
+    <div class="modal fade" id="rename-list-dialog" tabindex="-1" role="dialog" aria-labelledby="renameListDialogTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header shadow mb-3">
+                    <h5 class="modal-title" id="renameListDialogTitle">Rename list:</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-3">
+                    <form action="/todo/{user}/{listname}/rename" method="post">
+                        <label class="sr-only" for="newname">New name for list:</label>
+                        <div class="form-row">
+                            <div class="col">
+                                <input type="text" class="form-control" name="newListName" id="newname"
+                                       placeholder="New name for list" required>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="submit" class="btn btn-dark form-control" value="Rename">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

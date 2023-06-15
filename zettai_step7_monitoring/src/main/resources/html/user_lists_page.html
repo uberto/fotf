@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/zettai.css">
+    <title>Zettai - a ToDoList application</title>
+</head>
+<body>
+<div id="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow mb-5">
+        <div class="navbar-brand"><a class="text-reset" href="/">Zettai</a></div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">My Lists</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/whatsnext/{user}">What&apos;s Next</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                <i class="bi bi-person-circle mr-1"></i>
+                {user}
+            </span>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="row">
+        <div class="col-sm-1 col-md-3"></div>
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h1>
+                        My Lists
+                        <a class="float-right text-reset" data-toggle="modal" href="#add-dialog">
+                            <i class="bi bi-plus-circle-fill action-icon"></i>
+                        </a>
+                    </h1>
+
+                </div>
+                <div class="list-group">
+                    {listnames}
+                    <a href="{user}/{listname}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1" data-test="list-name">{listname}</h5>
+                            <small>Open</small>
+                        </div>
+                        <p class="mb-1">[archive] [freeze]</p>
+                    </a>
+                    {/listnames}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1 col-md-3"></div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="add-dialog" tabindex="-1" role="dialog" aria-labelledby="dialogTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header shadow mb-3">
+                    <h5 class="modal-title" id="dialogTitle">Create a new to-do list</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mb-3">
+                    <form action="/todo/{user}" method="post">
+                        <div class="form-row">
+                            <div class="col">
+                                <label class="sr-only" for="listname">List name:</label>
+                                <input type="text" class="form-control" name="listname" id="listname"
+                                       placeholder="Please enter your list name" required>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="submit" class="btn btn-dark form-control" value="Submit">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

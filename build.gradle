@@ -1,0 +1,20 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.8.20'
+}
+
+group 'com.ubertob.fotf'
+
+allprojects {
+
+    group 'com.ubertob.fotf'
+    version = '1.0'
+
+    repositories {
+        mavenCentral()
+    }
+
+    wrapper {
+        gradleVersion = "8.1.1"
+    }
+}
+

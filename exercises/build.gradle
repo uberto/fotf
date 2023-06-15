@@ -1,0 +1,31 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:${junitLauncherVersion}"
+
+    testImplementation "com.ubertob.pesticide:pesticide-core:${pesticideVersion}"
+    testImplementation "io.strikt:strikt-core:${striktVersion}"
+}
+
+kotlin {
+    jvmToolchain(11)
+}
+
+
+tasks {
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+
+        //if true show println in test console
+        testLogging.showStandardStreams = false
+
+    }
+}

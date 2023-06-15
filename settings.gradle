@@ -1,0 +1,17 @@
+rootProject.name = 'FromObjectsToFunctions'
+
+include 'exercises'
+include 'twowords'
+include 'bowlingkata'
+include 'kotlin'
+include 'categories'
+include 'zettai_step1_http'
+include 'zettai_step2_domain'
+include 'zettai_step3_events'
+include 'zettai_step4_projections'
+include 'zettai_step5_persistence'
+include 'zettai_step6_validation'
+include 'zettai_step7_monitoring'
+
+
+

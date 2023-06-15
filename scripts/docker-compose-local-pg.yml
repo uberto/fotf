@@ -1,0 +1,21 @@
+version: '3'
+services:
+  database:
+    image: "postgres:13.1"
+    env_file:
+      - postgresql.env # configure postgres
+    ports:
+      - "6432:5432"
+    volumes:
+      - pg-volume:/var/lib/postgresql/data/ # a path where to persist data even if container shuts down
+
+  db-test:
+    image: "postgres:13.1"
+    env_file:
+      - postgresql-test.env
+    ports:
+      - "6433:5432"
+    # no need of volumes for test
+
+volumes:
+  pg-volume: #
