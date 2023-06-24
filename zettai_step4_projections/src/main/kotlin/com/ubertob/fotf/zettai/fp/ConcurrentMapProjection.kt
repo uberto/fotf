@@ -18,21 +18,25 @@ data class ConcurrentMapProjection<R : Any, E : EntityEvent>(
 
     override fun allRows(): Map<RowId, R> = rowsReference.get()
 
+    override fun lastProjectedEvent(): EventSeq = lastEventRef.get()
+
     override fun applyDelta(eventSeq: EventSeq, deltas: List<DeltaRow<R>>) {
         deltas.forEach { delta ->
-            rowsReference.updateAndGet { rows ->
+            rowsReference.getAndUpdate { rows ->
                 when (delta) {
-                    is CreateRow -> rows + (delta.rowId to delta.row)
-                    is DeleteRow -> rows - delta.rowId
-                    is UpdateRow ->
-                        rows[delta.rowId]?.let { oldRow ->
-                            rows - delta.rowId + (delta.rowId to delta.updateRow(oldRow))
-                        }
+                    is CreateRow -> rows.createRow(delta)
+                    is DeleteRow -> rows.deleteRow(delta)
+                    is UpdateRow -> rows.updateRow(delta)
                 }
             }
         }.also { lastEventRef.getAndSet(eventSeq) }
     }
 
-    override fun lastProjectedEvent(): EventSeq = lastEventRef.get()
-
+    private fun Map<RowId, R>.createRow(delta: CreateRow<R>) = this + (delta.rowId to delta.row)
+    private fun Map<RowId, R>.deleteRow(delta: DeleteRow<R>) = this - delta.rowId
+    private fun Map<RowId, R>.updateRow(delta: UpdateRow<R>) =
+        this[delta.rowId]
+            ?.let { oldRow ->
+                this - delta.rowId + (delta.rowId to delta.updateRow(oldRow))
+            }
 }
